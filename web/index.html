@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视频播放器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #000;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            padding: 16px;
+            background: rgba(0,0,0,0.8);
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 20px;
+            font-weight: 500;
+        }
+        
+        .video-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        video {
+            width: 100%;
+            max-height: 100%;
+            background: #000;
+        }
+        
+        .controls {
+            padding: 16px;
+            background: rgba(0,0,0,0.9);
+        }
+        
+        .url-input {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: #333;
+            color: #fff;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background: #6200EE;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .btn:active {
+            background: #3700B3;
+        }
+        
+        .sample-videos {
+            padding: 16px;
+            background: rgba(20,20,20,0.95);
+        }
+        
+        .sample-videos h3 {
+            font-size: 14px;
+            color: #aaa;
+            margin-bottom: 12px;
+        }
+        
+        .sample-list {
+            display: grid;
+            gap: 8px;
+        }
+        
+        .sample-item {
+            padding: 12px;
+            background: #333;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        .sample-item:active {
+            background: #444;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎬 视频播放器</h1>
+    </div>
+    
+    <div class="video-container">
+        <video id="player" controls playsinline>
+            您的浏览器不支持视频播放
+        </video>
+    </div>
+    
+    <div class="controls">
+        <input type="text" class="url-input" id="urlInput" 
+               placeholder="输入视频 URL..." 
+               value="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4">
+        <button class="btn" onclick="playVideo()">播放视频</button>
+    </div>
+    
+    <div class="sample-videos">
+        <h3>示例视频</h3>
+        <div class="sample-list">
+            <div class="sample-item" onclick="playSample('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4')">
+                🐰 Big Buck Bunny (3分钟)
+            </div>
+            <div class="sample-item" onclick="playSample('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4')">
+                🐘 Elephants Dream (11分钟)
+            </div>
+            <div class="sample-item" onclick="playSample('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4')">
+                ⚔️ Sintel (15分钟)
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const player = document.getElementById('player');
+        const urlInput = document.getElementById('urlInput');
+        
+        function playVideo() {
+            const url = urlInput.value.trim();
+            if (url) {
+                player.src = url;
+                player.play();
+            }
+        }
+        
+        function playSample(url) {
+            urlInput.value = url;
+            player.src = url;
+            player.play();
+        }
+        
+        // 页面加载时自动播放
+        window.onload = () => {
+            playVideo();
+        };
+        
+        // 错误处理
+        player.addEventListener('error', () => {
+            alert('视频加载失败，请检查 URL 是否正确');
+        });
+    </script>
+</body>
+</html>
